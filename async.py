@@ -16,8 +16,9 @@ async def get_data(symbol):
         "X-RapidAPI-Key": api_key ,
         "X-RapidAPI-Host": host
     }
+    final_url = url+f"?function=TIME_SERIES_DAILY&symbol={symbol}&outputsize=compact&datatype=json"
     async with aiohttp.ClientSession() as session:
-        async with session.get(url+f"?function=TIME_SERIES_DAILY&symbol={symbol}&outputsize=compact&datatype=json", headers=headers) as r:
+        async with session.get(final_url, headers=headers) as r:
             response = await r.json()
             return response
 
@@ -38,4 +39,4 @@ if __name__ == '__main__':
     for _ in range(10):
         t.append(asyncio.run(main()))
     avg_time = sum(t)/len(t)
-    print(f'Average time taken by async client : {avg_time:.2f} seconds')
+    print(f'\nAverage time taken by async client : {avg_time:.2f} milli seconds')
